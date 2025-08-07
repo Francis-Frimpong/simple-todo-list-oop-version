@@ -12,8 +12,8 @@ class Todo {
 
 class TodoApp {
   constructor() {
-    // this.inputElement = inputElement;
-    // this.listElement = listElement;
+    this.inputElement = inputElement;
+    this.listElement = listElement;
     this.todos = [];
   }
 
