@@ -6,7 +6,7 @@ class Todo {
   }
 
   toggleDone() {
-    this.complete = !this.complete;
+    return (this.complete = !this.complete);
   }
 }
 
@@ -21,7 +21,50 @@ class TodoApp {
     // create and store new todo
     let todo = new Todo(text);
     this.todos.push(todo);
-    console.log(this.todos);
-    console.log(todo);
+    this.#renderTodos();
+  }
+
+  removeTodo(id) {
+    this.todos = this.todos.filter((todo) => todo.id !== id);
+  }
+
+  #renderTodos() {
+    this.listElement.innerHTML = "";
+    this.todos.forEach((todo) => {
+      const li = document.createElement("li");
+      li.textContent = todo.text;
+
+      if (todo.complete) {
+        li.style.textDecoration = "line-through";
+      }
+      this.listElement.appendChild(li);
+
+      li.addEventListener("click", () => {
+        this.removeTodo(todo.id);
+        this.#renderTodos();
+      });
+
+      li.addEventListener("dblclick", () => {
+        todo.toggleDone();
+        this.#renderTodos();
+        li.style.textDecoration = "line-through";
+      });
+    });
   }
 }
+
+// Get references to the DOM elements
+const inputElement = document.getElementById("todoInput");
+const listElement = document.getElementById("todoList");
+
+// Create an instance of the app
+const app = new TodoApp(inputElement, listElement);
+
+// Add a new todo when the button is clicked
+document.getElementById("addBtn").addEventListener("click", () => {
+  const text = inputElement.value.trim();
+  if (text) {
+    app.addTodo(text);
+    inputElement.value = ""; // clear input
+  }
+});
