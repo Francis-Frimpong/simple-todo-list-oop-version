@@ -6,7 +6,7 @@ class Todo {
   }
 
   toggleDone() {
-    return (this.complete = !this.complete);
+    this.complete = !this.complete;
   }
 }
 
@@ -39,12 +39,23 @@ class TodoApp {
       }
       this.listElement.appendChild(li);
 
-      li.addEventListener("click", () => {
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "✓";
+      completeBtn.classList.add("complete-btn");
+      li.appendChild(completeBtn);
+
+      // Delete button
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "✗";
+      deleteBtn.classList.add("delete-btn");
+      li.appendChild(deleteBtn);
+
+      deleteBtn.addEventListener("click", () => {
         this.removeTodo(todo.id);
         this.#renderTodos();
       });
 
-      li.addEventListener("dblclick", () => {
+      completeBtn.addEventListener("click", () => {
         todo.toggleDone();
         this.#renderTodos();
         li.style.textDecoration = "line-through";
