@@ -58,7 +58,6 @@ class TodoApp {
       completeBtn.addEventListener("click", () => {
         todo.toggleDone();
         this.#renderTodos();
-        li.style.textDecoration = "line-through";
       });
     });
   }
